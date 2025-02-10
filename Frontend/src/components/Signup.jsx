@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthProvider";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Signup = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
@@ -35,13 +36,13 @@ const Signup = () => {
         { withCredentials: true }
       );
 
-      alert(response.data.message || "Signup successful! Redirecting to login.");
+      toast.success(response.data.message || "Signup successful! Redirecting to login.");
       localStorage.setItem("userDetails", JSON.stringify(response.data));
       setAuthUser(response.data);
       navigate("/login");
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Signup failed!";
-      alert(errorMessage);
+      toast.error(errorMessage);
     }
   };
 

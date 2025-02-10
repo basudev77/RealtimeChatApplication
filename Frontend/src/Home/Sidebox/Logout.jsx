@@ -3,6 +3,7 @@ import { BiLogOutCircle } from "react-icons/bi";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider"; // Import useAuth
+import toast from "react-hot-toast";
 
 const Logout = () => {
   const [loading, setLoading] = useState(false);
@@ -20,13 +21,12 @@ const Logout = () => {
 
       setAuthUser(null); // Update auth state to null
 
-      alert(res.data?.message || "Logged out successfully!");
+      toast.success(res.data?.message || "Logged out successfully!");
 
       // Navigate to login after a short delay
       navigate("/login");
     } catch (error) {
-      console.error("Error logging out:", error);
-      alert("Logout failed! Please try again.");
+      toast.error("Logout failed! Please try again.");
     } finally {
       setLoading(false);
     }

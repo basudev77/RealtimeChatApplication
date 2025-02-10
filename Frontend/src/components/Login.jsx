@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -30,14 +31,14 @@ const Login = () => {
       );
 
       if (response.data) {
-        alert(response.data.message || "Login successful!");
+        toast.success(response.data.message || "Login successful!");
         localStorage.setItem("userDetails", JSON.stringify(response.data));
         setAuthUser(response.data);
         navigate("/");
       }
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Something went wrong!";
-      alert(errorMessage); // Swapped toast with alert
+      toast.error(errorMessage); // Swapped toast with alert
     }
   };
 

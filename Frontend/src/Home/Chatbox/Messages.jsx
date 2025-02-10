@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from "react";
 import Message from "./Message";
 import useGetMessage from "../../context/useGetMessage";
 import Loading from "../../components/Loading";
+import {useGetSocketMessage} from "../../context/useGetSocketMessage";
 
 const Messages = () => {
   const { loading, messages } = useGetMessage();
+  useGetSocketMessage();
   const lastMsgRef = useRef(null); // create ref to scroll to the last message
 
   useEffect(() => {
