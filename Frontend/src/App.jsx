@@ -5,6 +5,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthProvider";
+import Loading from "./components/Loading";
 
 const App = () => {
   const [authUser, setAuthUser] = useAuth();
@@ -31,6 +32,7 @@ const App = () => {
         path="/signup"
         element={authUser ? <Navigate to="/" /> : <Signup />}
       />
+      <Route path="*" element={<Loading/>} />
     </Routes>
   );
 };

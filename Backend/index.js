@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRoute from './routes/user_route.js';
+import messageRoute from './routes/message_route.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
@@ -13,7 +14,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Change this to your frontend URL
+    origin: "http://localhost:5173", // frontend URL
     credentials: true, // Allow cookies & authentication headers
   })
 );
@@ -21,8 +22,6 @@ app.use(
 
 const PORT = process.env.PORT || 3001;
 const MONGODB_URI = process.env.MONGODB_URI;
-
-
 
 
 try {
@@ -33,10 +32,11 @@ try {
 }
 
 app.get('/', (req, res) => {
-  res.send('Hello World');
+  res.send('Realtime Chatapp of Basudev Das');
 });
 
 app.use("/user", userRoute);
+app.use("/message", messageRoute);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
