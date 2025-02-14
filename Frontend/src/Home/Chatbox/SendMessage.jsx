@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IoSend } from "react-icons/io5";
-import useSendMessage from "../../context/useSendMessage";
+import useSendMessage from "../../context/useSendMessage.js";
 
 const SendMessage = () => {
   const [message, setMessage] = useState("");
@@ -8,23 +8,24 @@ const SendMessage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (message.trim() === "") return;
     await sendMessages(message);
     setMessage("");
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex h-full w-full items-center space-x-4 p-4 bg-gray-800">
-        <input
-          type="text"
-          placeholder="Type here"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="input input-bordered w-[80%] bg-slate-900 caret-white text-white px-4 py-2 rounded-md"
-        />
-        <button className="p-3 rounded-full hover:bg-slate-700">
-          <IoSend className="text-4xl text-slate-400" />
+      <div className="flex space-x-1 h-[10vh] items-center bg-gray-800">
+        <div className=" w-[70%] mx-4">
+          <input
+            type="text"
+            placeholder="Type here"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="border border-gray-700 rounded-xl outline-none mt-1 px-4 py-3 w-full"
+          />
+        </div>
+        <button className="w-[15%] h-[70%] hover:bg-gray-700 bg-gray-600 rounded-xl flex items-center justify-center">
+          <IoSend className="text-3xl" />
         </button>
       </div>
     </form>

@@ -1,13 +1,12 @@
 import React from "react";
-import Sidebar from "./Home/Sidebox/Sidebar";
 import MainChat from "./Home/Chatbox/MainChat";
+import Sidebar from "./Home/Sidebox/Sidebar";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthProvider";
-import Loading from "./components/Loading";
 import { Toaster } from "react-hot-toast";
 
+import { Navigate, Route, Routes } from "react-router-dom";
 const App = () => {
   const [authUser, setAuthUser] = useAuth();
   return (
@@ -17,12 +16,28 @@ const App = () => {
           path="/"
           element={
             authUser ? (
-              <div className="flex h-screen">
-                <Sidebar />
-                <MainChat />
+              <div className="drawer lg:drawer-open">
+                <input
+                  id="my-drawer-2"
+                  type="checkbox"
+                  className="drawer-toggle"
+                />
+                <div className="drawer-content flex flex-col items-center justify-center">
+                  <MainChat />
+                </div>
+                <div className="drawer-side">
+                  <label
+                    htmlFor="my-drawer-2"
+                    aria-label="close sidebar"
+                    className="drawer-overlay"
+                  ></label>
+                  <ul className="menu w-80 min-h-full bg-black text-base-content">
+                    <Sidebar />
+                  </ul>
+                </div>
               </div>
             ) : (
-              <Navigate to="/login" />
+              <Navigate to={"/login"} />
             )
           }
         />
@@ -34,7 +49,6 @@ const App = () => {
           path="/signup"
           element={authUser ? <Navigate to="/" /> : <Signup />}
         />
-        <Route path="*" element={<Loading />} />
       </Routes>
       <Toaster />
     </>

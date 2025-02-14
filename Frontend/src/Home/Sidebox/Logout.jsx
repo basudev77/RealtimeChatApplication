@@ -1,52 +1,37 @@
 import React, { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import { BiLogOutCircle } from "react-icons/bi";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthProvider"; // Import useAuth
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-
 const Logout = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const [authUser, setAuthUser] = useAuth(); // Get setAuthUser function
-
   const handleLogout = async () => {
-    if (loading) return; // Prevent multiple clicks
     setLoading(true);
-
     try {
-      const res = await axios.post("http://localhost:3000/user/logout", {}, { withCredentials: true });
-
+      const res = await axios.post("/api/user/logout");
       localStorage.removeItem("userDetails");
-
-      setAuthUser(null); // Update auth state to null
-
-      toast.success(res.data?.message || "Logged out successfully!");
-
-      // Navigate to login after a short delay
-      navigate("/login");
-    } catch (error) {
-      toast.error("Logout failed! Please try again.");
-    } finally {
+      Cookies.remove("jwt");
       setLoading(false);
+      toast.success("Logged out successfully");
+      window.location.reload();
+    } catch (error) {
+      console.log("Error in Logout", error);
+      toast.error("Error in logging out");
     }
   };
-
   return (
-    <div className="h-[10vh] flex items-center px-4 gap-2">
-      <div>
-        <BiLogOutCircle
-          className={`text-5xl text-white hover:bg-slate-700 duration-300 cursor-pointer rounded-full p-2 ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-          onClick={handleLogout}
-          disabled={loading}
-        />
+    <>
+      <hr />
+      <div className=" h-[10vh] bg-transparent">
+        <div className="h-full flex justify-center items-center">
+          <BiLogOutCircle
+            className="w-[30%] text-5xl text-white bg-slate-700 hover:bg-slate-800 duration-300 cursor-pointer rounded-full p-2 ml-2 mt-1"
+            onClick={handleLogout}
+          />
+        </div>
       </div>
-      <span className="text-white text-lg font-normal">
-        {loading ? "Logging out..." : "Logout"}
-      </span>
-    </div>
+    </>
   );
 };
 
